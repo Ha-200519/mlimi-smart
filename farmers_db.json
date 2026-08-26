@@ -1,0 +1,103 @@
+[
+  {
+    "id": "f-1",
+    "name": "Chifundo Phiri",
+    "phoneNumber": "+265888123450",
+    "password": "password123",
+    "age": 42,
+    "district": "Lilongwe",
+    "village": "Lilongwe West",
+    "latitude": -13.962,
+    "longitude": 33.774,
+    "crops": [
+      {
+        "cropType": "maize",
+        "growthStage": "flowering",
+        "plantingDate": "2026-02-15",
+        "farmSize": 2.5,
+        "expectedYieldBaseline": 2500,
+        "predictedYield": 6250,
+        "fertilizerUsage": 150
+      }
+    ],
+    "registeredAt": "2026-01-10T08:30:00Z"
+  },
+  {
+    "id": "f-2",
+    "name": "Mercy Banda",
+    "phoneNumber": "+265888123451",
+    "password": "password123",
+    "age": 35,
+    "district": "Salima",
+    "village": "Lakeshore Rural",
+    "latitude": -13.784,
+    "longitude": 34.451,
+    "crops": [
+      {
+        "cropType": "rice",
+        "growthStage": "vegetative",
+        "plantingDate": "2026-03-01",
+        "farmSize": 1.8,
+        "expectedYieldBaseline": 3000,
+        "predictedYield": 5400,
+        "fertilizerUsage": 120
+      }
+    ],
+    "registeredAt": "2026-01-12T10:15:00Z"
+  },
+  {
+    "id": "f-3",
+    "name": "John Chilima",
+    "phoneNumber": "+265888123452",
+    "password": "password123",
+    "age": 51,
+    "district": "Zomba",
+    "village": "Njuli",
+    "latitude": -15.75,
+    "longitude": 35.1,
+    "crops": [
+      {
+        "cropType": "beans",
+        "growthStage": "seedling",
+        "plantingDate": "2026-04-10",
+        "farmSize": 3.2,
+        "expectedYieldBaseline": 1200,
+        "predictedYield": 3840,
+        "fertilizerUsage": 80
+      }
+    ],
+    "registeredAt": "2026-01-20T14:45:00Z"
+  },
+  {
+    "id": "f-4",
+    "name": "Agness Chimwaza",
+    "phoneNumber": "+265888123453",
+    "password": "password123",
+    "age": 29,
+    "district": "Chiradzulu",
+    "village": "Mbulumbuzi",
+    "latitude": -15.6,
+    "longitude": 35.05,
+    "crops": [
+      {
+        "cropType": "maize",
+        "growthStage": "maturity",
+        "plantingDate": "2026-01-20",
+        "farmSize": 1.2,
+        "expectedYieldBaseline": 2400,
+        "predictedYield": 2880,
+        "fertilizerUsage": 90
+      },
+      {
+        "cropType": "groundnuts",
+        "growthStage": "maturity",
+        "plantingDate": "2026-01-22",
+        "farmSize": 0.8,
+        "expectedYieldBaseline": 1500,
+        "predictedYield": 1200,
+        "fertilizerUsage": 40
+      }
+    ],
+    "registeredAt": "2026-01-25T09:00:00Z"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "mlimi Smart",
+  "description": "An intelligent agricultural decision support system that registers farmers, manages crops, models yields, and generates AI farming plans.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

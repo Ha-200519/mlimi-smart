@@ -1,0 +1,26 @@
+[
+  {
+    "id": "dis-1",
+    "farmerId": "f-1",
+    "farmerName": "Chifundo Phiri",
+    "cropType": "maize",
+    "diseaseName": "Fall Armyworm",
+    "confidenceScore": 0.92,
+    "growthStage": "flowering",
+    "verificationStatus": "Verified",
+    "treatmentRecommended": "Apply Cypermethrin or Deltamethrin immediately in safe levels. Monitor neighboring plots to limit spreading.",
+    "reportedAt": "2026-06-02T11:20:00Z"
+  },
+  {
+    "id": "dis-2",
+    "farmerId": "f-3",
+    "farmerName": "John Chilima",
+    "cropType": "beans",
+    "diseaseName": "Leaf Blight",
+    "confidenceScore": 0.85,
+    "growthStage": "seedling",
+    "verificationStatus": "Pending",
+    "treatmentRecommended": "Remove and burn infested leaves. Spray copper-based organic fungicides to protect surrounding acreage.",
+    "reportedAt": "2026-06-10T15:40:00Z"
+  }
+]

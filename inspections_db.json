@@ -1,0 +1,26 @@
+[
+  {
+    "id": "insp-1",
+    "officerName": "Officer John Banda",
+    "farmerId": "f-3",
+    "farmerName": "John Chilima",
+    "village": "Njuli",
+    "inspectionDate": "2026-06-05",
+    "cropHealthStatus": "Excellent",
+    "soilMoistureLevel": "Moderate",
+    "weedingStatus": "Clean",
+    "notes": "Njuli fields are highly fertile. Beans are developing healthy pods. Recommended small application of organic trace booster before heavy winter moisture decreases."
+  },
+  {
+    "id": "insp-2",
+    "officerName": "Officer Agness Moyo",
+    "farmerId": "f-2",
+    "farmerName": "Mercy Banda",
+    "village": "Lakeshore Rural",
+    "inspectionDate": "2026-06-10",
+    "cropHealthStatus": "Good",
+    "soilMoistureLevel": "Sufficient",
+    "weedingStatus": "Needs Weeding",
+    "notes": "Rice crop is healthy, but weeder spacing rules must be enforced around standard bounds. Water saturation levels are optimal."
+  }
+]

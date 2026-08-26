@@ -1,0 +1,114 @@
+[
+  {
+    "id": "p-1",
+    "cropType": "maize",
+    "marketName": "Lilongwe",
+    "pricePerBag": 24500,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-2",
+    "cropType": "maize",
+    "marketName": "Blantyre",
+    "pricePerBag": 26000,
+    "priceTrend": "up",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-3",
+    "cropType": "maize",
+    "marketName": "Zomba",
+    "pricePerBag": 25500,
+    "priceTrend": "up",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-4",
+    "cropType": "maize",
+    "marketName": "Mzuzu",
+    "pricePerBag": 23500,
+    "priceTrend": "down",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-5",
+    "cropType": "beans",
+    "marketName": "Lilongwe",
+    "pricePerBag": 38000,
+    "priceTrend": "up",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-6",
+    "cropType": "beans",
+    "marketName": "Blantyre",
+    "pricePerBag": 42000,
+    "priceTrend": "up",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-7",
+    "cropType": "beans",
+    "marketName": "Zomba",
+    "pricePerBag": 39500,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-8",
+    "cropType": "beans",
+    "marketName": "Mzuzu",
+    "pricePerBag": 37000,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-9",
+    "cropType": "groundnuts",
+    "marketName": "Blantyre",
+    "pricePerBag": 34000,
+    "priceTrend": "down",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-10",
+    "cropType": "groundnuts",
+    "marketName": "Lilongwe",
+    "pricePerBag": 32500,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-11",
+    "cropType": "rice",
+    "marketName": "Blantyre",
+    "pricePerBag": 48000,
+    "priceTrend": "up",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-12",
+    "cropType": "rice",
+    "marketName": "Lilongwe",
+    "pricePerBag": 45000,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-13",
+    "cropType": "soybeans",
+    "marketName": "Blantyre",
+    "pricePerBag": 29000,
+    "priceTrend": "stable",
+    "updatedAt": "2026-06-11"
+  },
+  {
+    "id": "p-14",
+    "cropType": "soybeans",
+    "marketName": "Lilongwe",
+    "pricePerBag": 27500,
+    "priceTrend": "down",
+    "updatedAt": "2026-06-11"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "coop-1",
+    "name": "Chiradzulu Smallholders Cooperative",
+    "village": "Njuli",
+    "district": "Chiradzulu",
+    "memberCount": 45,
+    "collectiveTonnageGoal": 120,
+    "fertilizerDistributedBags": 250,
+    "seedsDistributedKg": 500
+  },
+  {
+    "id": "coop-2",
+    "name": "Mbulumbuzi Legume Association",
+    "village": "Mbulumbuzi",
+    "district": "Chiradzulu",
+    "memberCount": 32,
+    "collectiveTonnageGoal": 65,
+    "fertilizerDistributedBags": 120,
+    "seedsDistributedKg": 350
+  },
+  {
+    "id": "coop-3",
+    "name": "Lilongwe West Maize Syndicate",
+    "village": "Lilongwe West",
+    "district": "Lilongwe",
+    "memberCount": 88,
+    "collectiveTonnageGoal": 280,
+    "fertilizerDistributedBags": 500,
+    "seedsDistributedKg": 1100
+  }
+]
