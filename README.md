@@ -1,19 +1,27 @@
-<div align="center">
-</div>
+# 🌾 Mlimi Smart
 
-# Run and deploy your AI Studio app
+**Smart Integrated Farming Management System**
 
-This contains everything you need to run your app locally.
+Mlimi Smart is a smart farming project that uses data science, mathematics, AI, and technology to support farmers in making better farming decisions.
 
-View your app in AI Studio: https://ai.studio/apps/98be86d2-68b4-4c12-84f9-a6ffaa457a0e
+## 🚜 Features
 
-## Run Locally
+- 🌱 Crop management
+- 🌦️ Weather and climate information
+- 📊 Agricultural data analysis
+- 🤖 AI and machine learning
+- 📐 Mathematical modelling
+- 👨‍🌾 Farmer management
 
-**Prerequisites:**  Node.js
+## 👨‍💻 Developer
 
+**Harry Jamali**
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Data Science Student | Developer
+
+🇲🇼 Malawi
+
+## 🚧 Status
+
+**Under Development**
+
