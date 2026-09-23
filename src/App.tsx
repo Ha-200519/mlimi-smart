@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Bell,
   Users,
@@ -112,7 +112,7 @@ export default function App() {
 
   // SIFMS 2.0 Upgrade State Variables & View Routers
   const [activeTab, setActiveTab] = useState<
-    "registry" | "gis" | "ml" | "district" | "weather" | "ai" | "colab" | "inspections" | "diseases" | "coops" | "market" | "sms"
+    "registry" | "gis" | "ml" | "district" | "weather" | "ai" | "colab" | "inspections" | "diseases" | "coops" | "market" | "sms" | "mlimi-ai" | "pro" | "gmail"
   >(() => {
     const role = localStorage.getItem("sifms_role");
     if (role === "farmer") return "registry";
@@ -156,6 +156,40 @@ export default function App() {
   const [scannerStage, setScannerStage] = useState<GrowthStage>("vegetative");
   const [selectedDiseaseImgLabel, setSelectedDiseaseImgLabel] = useState<string>("Blight Infested Sample Leaf (Bakalata)");
   const [photoPreview, setPhotoPreview] = useState<string>("");
+  const [scannerUploadError, setScannerUploadError] = useState<string>("");
+  const uploadedPreviewUrlRef = useRef<string | null>(null);
+
+  const revokeUploadedPreview = () => {
+    if (uploadedPreviewUrlRef.current) {
+      URL.revokeObjectURL(uploadedPreviewUrlRef.current);
+      uploadedPreviewUrlRef.current = null;
+    }
+  };
+
+  const handleScannerFile = (file?: File) => {
+    if (!file) return;
+
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+    const supportedExtensions = ["jpg", "jpeg", "png", "webp"];
+    if (!file.type.startsWith("image/") || !fileExtension || !supportedExtensions.includes(fileExtension)) {
+      setScannerUploadError("Please choose a JPG, JPEG, PNG, or WEBP image.");
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setScannerUploadError("Photo is too large. Please choose an image smaller than 10 MB.");
+      return;
+    }
+
+    revokeUploadedPreview();
+    const objectUrl = URL.createObjectURL(file);
+    uploadedPreviewUrlRef.current = objectUrl;
+    setPhotoPreview(objectUrl);
+    setSelectedDiseaseImgLabel(file.name);
+    setScannerUploadError("");
+  };
+
+  useEffect(() => revokeUploadedPreview, []);
 
   // Cooperative Addition Inputs
   const [newCoopName, setNewCoopName] = useState("");
@@ -962,7 +996,7 @@ export default function App() {
       });
     }
 
-    if (diseases.some(d => d.district === f.district && d.diseaseName !== "None")) {
+    if (diseases.some(d => d.farmerId === f.id && d.diseaseName !== "None")) {
       alerts.push({
         alert: "🚨 REGIONAL DISEASE RISK ALERT",
         msg: `Fungal blight outbreaks recorded in ${f.district} district. Conduct leaf scouting immediately.`,
@@ -1739,14 +1773,14 @@ export default function App() {
                                       <span className="h-2 w-2 rounded-full bg-teal-500 animate-ping" />
                                     </div>
                                     <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1 leading-normal">
-                                      {dlLogs.map((log) => (
-                                        <div key={log.id} className="border-b border-slate-900 pb-1 text-slate-400">
+                                      {dlLogs.map((log, logIndex) => (
+                                        <div key={`${log.dispatchedAt}-${logIndex}`} className="border-b border-slate-900 pb-1 text-slate-400">
                                           <div className="flex justify-between text-teal-300 font-bold text-[9px]">
-                                            <span>{log.recipient} ({log.type})</span>
-                                            <span>{log.status === "dispatched" ? "✓ DISPATCHED" : "● PENDING"}</span>
+                                            <span>{log.channel}</span>
+                                            <span>{log.status}</span>
                                           </div>
-                                          <div>{log.message}</div>
-                                          <div className="text-[8px] text-slate-500">{log.timestamp} via {log.gateway}</div>
+                                          <div>{log.msg}</div>
+                                          <div className="text-[8px] text-slate-500">{log.dispatchedAt}</div>
                                         </div>
                                       ))}
                                     </div>
@@ -1871,7 +1905,7 @@ export default function App() {
 
                               <div className="flex items-center gap-4 my-3">
                                 <span className="text-4xl font-extrabold text-[#0F172A]">
-                                  {weatherData[selectedFarmer?.district || ""]?.temp || 24.5}&deg;C
+                                  {weatherData[selectedFarmer?.district || ""]?.temperature || 24.5}&deg;C
                                 </span>
                                 <div className="text-xs">
                                   <div className="font-bold text-slate-800 capitalize">
@@ -1885,7 +1919,7 @@ export default function App() {
                             <div className="bg-emerald-50 border border-emerald-100 text-[#065F46] p-3 rounded-lg text-[10px] space-y-1">
                               <p className="font-bold">Agronomist Advisory Summary:</p>
                               <p className="leading-normal font-light">
-                                Current precipitation status ({weatherData[selectedFarmer?.district || ""]?.rainVolume || 12}mm rainfall) is optimal for maize & beans crops dynamically predicted with safe baseline ranges.
+                                Current precipitation status ({weatherData[selectedFarmer?.district || ""]?.rainfall || 12}mm rainfall) is optimal for maize & beans crops dynamically predicted with safe baseline ranges.
                               </p>
                             </div>
                           </div>
@@ -2743,7 +2777,7 @@ export default function App() {
                           const rect = e.currentTarget.getBoundingClientRect();
                           const clickX = Math.round(((e.clientX - rect.left) / rect.width) * 340);
                           const clickY = Math.round(((e.clientY - rect.top) / rect.height) * 550);
-                          setDrawnBoundaryPoints([...drawnBoundaryPoints, { lat: clickY, lon: clickX }]);
+                          setDrawnBoundaryPoints([...drawnBoundaryPoints, { lat: clickY, lng: clickX }]);
                         }}
                       >
                         {/* Highly Stylized Simulated Coastlines & Region Boundaries of Malawi country */}
@@ -2869,7 +2903,8 @@ export default function App() {
                         {/* Disease Outbreak WARNING vectors if active */}
                         {gisLayer === "diseases" &&
                           diseases.map((rpt, dIdx) => {
-                            const dMeta = DISTRICTS_METADATA[rpt.district] || DISTRICTS_METADATA["Chiradzulu"];
+                            const reportFarmer = farmers.find((farmer) => farmer.id === rpt.farmerId);
+                            const dMeta = DISTRICTS_METADATA[reportFarmer?.district || ""] || DISTRICTS_METADATA["Chiradzulu"];
                             const { x, y } = getSVGCoordinates(dMeta.lat, dMeta.lon);
                             const offsetX = x + ((dIdx * 14) % 30) - 15;
                             const offsetY = y + ((dIdx * 12) % 24) - 12;
@@ -2898,7 +2933,7 @@ export default function App() {
                         {drawnBoundaryPoints.length > 0 && (
                           <g>
                             <polygon
-                              points={drawnBoundaryPoints.map((pt) => `${pt.lon},${pt.lat}`).join(" ")}
+                              points={drawnBoundaryPoints.map((pt) => `${pt.lng},${pt.lat}`).join(" ")}
                               fill="rgba(245, 158, 11, 0.32)"
                               stroke="#F59E0B"
                               strokeWidth="2"
@@ -2907,7 +2942,7 @@ export default function App() {
                             {drawnBoundaryPoints.map((pt, index) => (
                               <g key={`vertex-${index}`}>
                                 <circle
-                                  cx={pt.lon}
+                                  cx={pt.lng}
                                   cy={pt.lat}
                                   r="5"
                                   fill="#F59E0B"
@@ -2915,9 +2950,9 @@ export default function App() {
                                   strokeWidth="1.5"
                                 />
                                 <text
-                                  cx={pt.lon}
+                                  cx={pt.lng}
                                   cy={pt.lat}
-                                  x={pt.lon + 8}
+                                  x={pt.lng + 8}
                                   y={pt.lat + 4}
                                   fill="#FBBF24"
                                   fontSize="8"
@@ -4191,23 +4226,23 @@ export default function App() {
                                   </div>
                                 </td>
                                 <td className="py-3 px-3 text-[#334155] font-medium whitespace-nowrap">
-                                  {insp.inspectorName}
+                                  {insp.officerName}
                                 </td>
                                 <td className="py-3 px-3">
-                                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${healthColors[insp.cropHealth as keyof typeof healthColors] || "bg-slate-100"}`}>
-                                    {insp.cropHealth}
+                                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${healthColors[insp.cropHealthStatus] || "bg-slate-100"}`}>
+                                    {insp.cropHealthStatus}
                                   </span>
                                 </td>
                                 <td className="py-3 px-3">
                                   <div className="text-slate-700">
-                                    Moisture: <span className="font-semibold text-sky-600">{insp.soilMoisture}</span>
+                                    Moisture: <span className="font-semibold text-sky-600">{insp.soilMoistureLevel}</span>
                                   </div>
                                   <div className="text-[10px] text-slate-400">
                                     Weeds: {insp.weedingStatus}
                                   </div>
                                 </td>
                                 <td className="py-3 px-3 text-slate-600 font-light max-w-xs leading-normal">
-                                  {insp.fieldNotes}
+                                  {insp.notes}
                                 </td>
                               </tr>
                             );
@@ -4232,19 +4267,26 @@ export default function App() {
                 {/* Visual specimen selector */}
                 <div className="lg:col-span-7 bg-white border border-[#E2E8F0] p-6 rounded-xl shadow-sm space-y-4">
                   <div>
-                    <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2">
-                      <Camera className="h-5 w-5 text-[#059669]" /> AI Mobile Plant Pathology Scanner
-                    </h3>
-                    <p className="text-xs text-[#64748B]">
-                      Select an image specimen below to diagnose leaf diseases, estimate severity outbreaks, and access local Malawian chemical and organic containment solutions.
-                    </p>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2">
+                          <Camera className="h-5 w-5 text-[#059669]" /> AI Mobile Plant Pathology Scanner
+                        </h3>
+                        <p className="text-xs text-[#64748B] mt-1">
+                          Photograph a leaf to identify disease risk and get local containment guidance.
+                        </p>
+                      </div>
+                      <span className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Ready
+                      </span>
+                    </div>
                   </div>
 
                   <div className="border border-[#CBD5E1] rounded-xl p-3 bg-slate-900 border-slate-800">
                     <span className="text-[9px] text-[#059669] font-mono font-bold uppercase tracking-wider block mb-1">
                       Camera Viewfinder Preview
                     </span>
-                    <div className="h-56 bg-slate-950 rounded-lg overflow-hidden flex flex-col items-center justify-center p-4 relative">
+                    <div className="h-56 sm:h-64 bg-slate-950 rounded-lg overflow-hidden flex flex-col items-center justify-center p-4 relative">
                       {photoPreview ? (
                         <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
                           <img 
@@ -4270,12 +4312,60 @@ export default function App() {
                         {scannerCrop.toUpperCase()} - {scannerStage.toUpperCase()}
                       </div>
                     </div>
+                    <div className="grid grid-cols-2 gap-2 mt-3">
+                      <label htmlFor="plant-pathology-photo" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs py-2.5 cursor-pointer transition">
+                        <Camera className="h-4 w-4" />
+                        Capture leaf
+                      </label>
+                      <input
+                        id="plant-pathology-photo"
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        className="hidden"
+                        onChange={(event) => {
+                          handleScannerFile(event.target.files?.[0]);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                      <label htmlFor="plant-pathology-upload" className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#059669] text-[#047857] hover:bg-emerald-50 font-bold text-xs py-2.5 cursor-pointer transition">
+                        <span aria-hidden="true">📁</span>
+                        Upload Photo
+                      </label>
+                      <input
+                        id="plant-pathology-upload"
+                        type="file"
+                        accept="image/*,.jpg,.jpeg,.png,.webp"
+                        className="hidden"
+                        onChange={(event) => {
+                          handleScannerFile(event.target.files?.[0]);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          revokeUploadedPreview();
+                          setPhotoPreview("");
+                          setSelectedDiseaseImgLabel("");
+                          setScannerUploadError("");
+                        }}
+                        className="col-span-2 inline-flex items-center justify-center gap-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 font-bold text-xs py-2.5 transition"
+                      >
+                        <RefreshCw className="h-4 w-4" /> New scan
+                      </button>
+                    </div>
+                    {scannerUploadError && (
+                      <p role="alert" className="mt-2 text-[10px] font-semibold text-red-300">
+                        {scannerUploadError}
+                      </p>
+                    )}
                   </div>
 
                   {/* Built-in plant anomaly speciments */}
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-wider text-[#64748B] mb-2">
-                      Select Pathogen Speciment Card
+                      Or use a reference specimen
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {[
@@ -4312,10 +4402,12 @@ export default function App() {
                           key={cI}
                           type="button"
                           onClick={() => {
+                            revokeUploadedPreview();
                             setPhotoPreview(card.img);
                             setScannerCrop(card.crop as any);
                             setScannerDisease(card.disease as any);
                             setSelectedDiseaseImgLabel(card.lab);
+                            setScannerUploadError("");
                           }}
                           className={`p-2 rounded-lg border text-left transition transition-all duration-150 cursor-pointer ${
                             selectedDiseaseImgLabel === card.lab
@@ -4499,7 +4591,7 @@ export default function App() {
                       <div>
                         <div className="text-slate-400">Critical Alerts:</div>
                         <div className="text-red-400 font-bold">
-                          {diseases.filter(d => d.diseaseSeverity !== "None" && d.diagnosedAnomaly !== "No pathology detected").length} active
+                          {diseases.filter(d => d.diseaseName !== "None" && d.verificationStatus !== "Investigating").length} active
                         </div>
                       </div>
                     </div>
@@ -4667,7 +4759,7 @@ export default function App() {
                         </span>
 
                         <div>
-                          <div className="font-bold text-[#0F172A] text-sm leading-tight">{cp.coopName}</div>
+                          <div className="font-bold text-[#0F172A] text-sm leading-tight">{cp.name}</div>
                           <div className="text-[10px] font-mono text-slate-500 uppercase">
                             VILLAGE: {cp.village} | DISTRICT: {cp.district}
                           </div>
@@ -4676,23 +4768,23 @@ export default function App() {
                         <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
                           <div className="bg-white/80 p-2 rounded-lg border border-[#F1F5F9]">
                             <span className="text-[9px] text-[#64748B] uppercase block">Members:</span>
-                            <span className="font-bold text-slate-800 text-sm">{cp.activeMembers} smallholders</span>
+                            <span className="font-bold text-slate-800 text-sm">{cp.memberCount} smallholders</span>
                           </div>
                           <div className="bg-white/80 p-2 rounded-lg border border-[#F1F5F9]">
                             <span className="text-[9px] text-[#64748B] uppercase block">AIP Fertilizer:</span>
-                            <span className="font-bold text-[#059669] text-sm">{cp.inputSuppliesQuotas?.fertilizerBags} Bags (50kg)</span>
+                            <span className="font-bold text-[#059669] text-sm">{cp.fertilizerDistributedBags} Bags (50kg)</span>
                           </div>
                         </div>
 
                         <div className="pt-1">
                           <div className="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
                             <span>Quotas Supply Status:</span>
-                            <span>{Math.round((cp.inputSuppliesQuotas?.fertilizerBags || 10) * 100 / 300)}% Fulfilled</span>
+                            <span>{Math.round((cp.fertilizerDistributedBags || 10) * 100 / 300)}% Fulfilled</span>
                           </div>
                           <div className="w-full bg-[#E2E8F0] h-1.5 rounded-full overflow-hidden">
                             <div 
                               className="h-1.5 rounded-full bg-[#059669]" 
-                              style={{ width: `${Math.min((cp.inputSuppliesQuotas?.fertilizerBags || 10) * 100 / 300, 100)}%` }} 
+                              style={{ width: `${Math.min((cp.fertilizerDistributedBags || 10) * 100 / 300, 100)}%` }}
                             />
                           </div>
                         </div>
@@ -5681,7 +5773,7 @@ export default function App() {
                       const yieldBags = Math.round(yieldKg / 50);
 
                       // Crop details multipliers 
-                      const baseDict = { maize: 850, beans: 1400, groundnuts: 1200, rice: 1800, soybeans: 1100, maize_white: 850, maize_yellow: 780, cassava: 550, sweet_potatoes: 480, tomatoes: 950, onions: 880, cabbage: 400 };
+                      const baseDict: Record<string, number> = { maize: 850, beans: 1400, groundnuts: 1200, rice: 1800, soybeans: 1100, maize_white: 850, maize_yellow: 780, cassava: 550, sweet_potatoes: 480, tomatoes: 950, onions: 880, cabbage: 400 };
                       const cropPriceRaw = baseDict[currentCrop] || 850;
 
                       // Weather adjustments modifiers
@@ -6175,7 +6267,7 @@ def calculate_predictions(crop_base, weather_mode):
                       </div>
 
                       {/* Msg chat thread body space */}
-                      <div className="flex-1 p-3 overflow-y-auto space-y-2 flex flex-col" style={{ maxHh: "390px" }}>
+                      <div className="flex-1 p-3 overflow-y-auto space-y-2 flex flex-col" style={{ maxHeight: "390px" }}>
                         {smsConsole.map((msg, mI) => (
                           <div 
                             key={mI} 

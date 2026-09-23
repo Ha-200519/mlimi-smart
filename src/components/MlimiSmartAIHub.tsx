@@ -2656,7 +2656,6 @@ export const MlimiSmartAIHub: React.FC<MlimiSmartAIHubProps> = ({ farmers }) => 
       )}
 
       {/* VIEW 11: DEEP AGRICULTURAL MATHEMATICS & MATLAB ENGINE */}
-      {activeTab === "math" && <AgriculturalMathHub />}
     </div>
   );
 };
