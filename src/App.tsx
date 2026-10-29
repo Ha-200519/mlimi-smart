@@ -1124,10 +1124,10 @@ export default function App() {
       </header>
 
       {/* SIDEBAR AND WORKSPACE GRID */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-12 overflow-hidden h-[calc(100vh-4rem)]">
+      <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-12 overflow-visible md:overflow-hidden md:h-[calc(100vh-4rem)]">
         
         {/* SIDE BAR BUTTONS - Professional Slate Style */}
-        <nav className="md:col-span-2 bg-[#1E293B] text-slate-100 p-4 pb-6 flex flex-col justify-between" id="sifms-nav">
+        <nav className="md:col-span-2 min-w-0 bg-[#1E293B] text-slate-100 p-3 sm:p-4 pb-6 flex flex-col justify-between gap-4 md:overflow-y-auto" id="sifms-nav">
           <div className="space-y-1">
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-3 px-3">
               Operational Focus
@@ -1595,7 +1595,7 @@ export default function App() {
         </nav>
 
         {/* WORKSPACE AREA - Dot Grid & Responsive Cards */}
-        <main className="md:col-span-10 p-6 overflow-y-auto space-y-6" id="sifms-workbench" style={{ backgroundImage: "radial-gradient(#CBD5E1 0.75px, transparent 0.75px)", backgroundColor: "#F8FAF9", backgroundSize: "24px 24px" }}>
+        <main className="min-w-0 md:col-span-10 p-3 sm:p-4 lg:p-6 md:overflow-y-auto space-y-4 sm:space-y-6" id="sifms-workbench" style={{ backgroundImage: "radial-gradient(#CBD5E1 0.75px, transparent 0.75px)", backgroundColor: "#F8FAF9", backgroundSize: "24px 24px" }}>
           
           {loading && (
             <div className="bg-white/80 backdrop-blur-md border border-[#E2E8F0] p-6 rounded-xl flex items-center justify-center gap-3 shadow-sm">
