@@ -1,1 +1,76 @@
 @import "tailwindcss";
+
+/* Mlimi Smart AI responsive layout improvements */
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: clip;
+}
+
+#root {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  #root {
+    font-size: 14px;
+  }
+
+  main,
+  section,
+  article {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .grid,
+  .flex {
+    min-width: 0;
+  }
+
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  #root {
+    font-size: 13px;
+  }
+}
